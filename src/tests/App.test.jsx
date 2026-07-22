@@ -1,13 +1,33 @@
-import { render, screen } from '@testing-library/react';
+// App.test.jsx
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { App1, App2 } from "../App.jsx";
 
-import App from '../App.jsx';
+describe("Basic test", () => {
+  it("renders correct heading", () => {
+    render(<App1 />);
+    // using regex with the i flag allows simpler case-insensitive comparison
+    expect(screen.getByRole("heading").textContent).toMatch(/our first test/i);
+  });
+});
 
-describe('App', () => {
-  it('renders headline', () => {
-    render(<App title="React" />);
+// testing user events
+describe("User Event simulation", () => {
+  it("renders magnificent monkeys", () => {
+    // since screen does not have the container property, we'll destructure render to obtain a container for this test
+    const { container } = render(<App2 />);
+    expect(container).toMatchSnapshot();
+  });
 
-    screen.debug();
+  it("renders radical rhinos after button click", async () => {
+    const user = userEvent.setup();
 
-    // check if App components renders headline
+    render(<App2 />);
+    const button = screen.getByRole("button", { name: "Click Me" });
+
+    await user.click(button);
+
+    expect(screen.getByRole("heading").textContent).toMatch(/radical rhinos/i);
   });
 });
