@@ -15,7 +15,6 @@ describe("CustomButton", () => {
     it("should call the onClick function when clicked", async () => {
         const onClick = vi.fn();
         const user = userEvent.setup();
-
         render(<CustomButton onClick={onClick} />);
         
         const button = screen.getByRole("button", { name: "Click me" });
@@ -26,7 +25,6 @@ describe("CustomButton", () => {
 
     it("should not call the onClick function when not clicked", () => {
         const onClick = vi.fn();
-        
         render(<CustomButton onClick={onClick} />);
         
         expect(onClick).not.toHaveBeenCalled();
